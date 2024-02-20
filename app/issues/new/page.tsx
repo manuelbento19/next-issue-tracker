@@ -10,11 +10,13 @@ import { z } from 'zod';
 import { CreateIssueSchema } from '@/app/api/issues/CreateIssueSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
+import Spinner from '@/app/components/Spinner';
 const SimpleMdeReact = dynamic(()=>import('react-simplemde-editor'),{ssr: false})
  
 type CreateIssueProps = z.infer<typeof CreateIssueSchema>
 
 export default function Page() {
+    const [loading,setLoading] = useState(false)
     const [error,setError] = useState('')
     const router = useRouter();
     const {register,control,handleSubmit,formState: {errors}} = useForm<CreateIssueProps>({
@@ -22,9 +24,11 @@ export default function Page() {
     });
     
     const createIssue = async(data: CreateIssueProps) => {
+        setLoading(true)
         axios.post("/api/issues",data)
             .then(()=>router.push("/"))
             .catch(err=>setError("Error unexpected"))
+            .finally(()=>setLoading(false))
     }
 
     return (
@@ -43,7 +47,9 @@ export default function Page() {
                     <SimpleMdeReact placeholder='Description' {...field}/>
                 )}/>
                 <ErrorMessage error={errors.description?.message}/>
-                <Button>Submit New Issue</Button>
+                <Button disabled={loading}>
+                    Submit New Issue {loading && <Spinner/>}
+                </Button>
             </form>
         </div>
     )
