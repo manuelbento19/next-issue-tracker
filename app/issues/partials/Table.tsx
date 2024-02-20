@@ -16,9 +16,6 @@ export default function IssueTable({issues}:IssueTableProps) {
           {IssueTableHeaders.map((item,index)=>(
             <Table.ColumnHeaderCell key={index}>{item}</Table.ColumnHeaderCell>
           ))}
-          <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Created</Table.ColumnHeaderCell>
         </Table.Row>
       </Table.Header>
 
