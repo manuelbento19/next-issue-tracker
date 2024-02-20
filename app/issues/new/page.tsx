@@ -9,6 +9,7 @@ import axios from 'axios';
 import { z } from 'zod';
 import { CreateIssueSchema } from '@/app/api/issues/CreateIssueSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
 const SimpleMdeReact = dynamic(()=>import('react-simplemde-editor'),{ssr: false})
  
 type CreateIssueProps = z.infer<typeof CreateIssueSchema>
@@ -37,11 +38,11 @@ export default function Page() {
                 <TextField.Root>
                     <TextField.Input {...register("title")} placeholder='Title'/>
                 </TextField.Root>
-                {errors.title && <Text color='red' as='p'>{errors.title.message}</Text>}
+                <ErrorMessage error={errors.title?.message}/>
                 <Controller name='description' control={control} render={({field})=>(
                     <SimpleMdeReact placeholder='Description' {...field}/>
                 )}/>
-                {errors.description && <Text color='red' as='p'>{errors.description.message}</Text>}
+                <ErrorMessage error={errors.description?.message}/>
                 <Button>Submit New Issue</Button>
             </form>
         </div>
