@@ -23,3 +23,13 @@ export async function POST(request:NextRequest) {
 
     }
 }
+export async function GET(request:NextRequest) {
+    try{
+        const result = await prisma.issue.findMany()
+        return NextResponse.json(result)
+    }
+    catch(error){
+        return NextResponse.json(error,{status: 400})
+
+    }
+}
