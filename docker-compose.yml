@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:latest
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=issue-tracker
+      - MYSQL_DATABASE=issue-tracker
+      - MYSQL_PASSWORD=issue-tracker
+    volumes:
+      - ./data:/var/lib/mysql
